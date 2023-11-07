@@ -36,7 +36,9 @@ const changeMode = (selected, deselected) => {
 };
 document.body.onmousedown = () => isMouseDown = true;
 document.body.onmouseup = () => isMouseDown = false;
+color.value = window.localStorage.getItem("color");
 initCanvas(input, label, canvas);
+color.onchange = () => window.localStorage.setItem("color", color.value);
 input.onchange = () => initCanvas(input, label, canvas);
 changeMode(pen, eraser);
 pen.onclick = () => changeMode(pen, eraser);

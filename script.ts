@@ -7,7 +7,6 @@ const clear:  HTMLButtonElement = document.querySelector("#clear");
 const color:  HTMLInputElement  = document.querySelector("#color");
 let isMouseDown = false;
 
-
 const createTiles = (tileCount: number): HTMLDivElement[] => {
     return Array(tileCount ** 2)
         .fill(100 / tileCount + "%")
@@ -43,7 +42,9 @@ const changeMode = (selected: HTMLButtonElement, deselected: HTMLButtonElement) 
 document.body.onmousedown = () => isMouseDown = true;
 document.body.onmouseup = () => isMouseDown = false;
 
+color.value = window.localStorage.getItem("color");
 initCanvas(input, label, canvas)
+color.onchange = () => window.localStorage.setItem("color", color.value)
 input.onchange = () => initCanvas(input, label, canvas);
 
 changeMode(pen, eraser);
