@@ -1,10 +1,10 @@
-const canvas = document.querySelector("#canvas");
+const canvas = $("#canvas");
+const color = $("#color");
 const input = document.querySelector("#tile-count-input");
 const label = document.querySelector("#tile-count-label");
 const pen = document.querySelector("#pen");
 const eraser = document.querySelector("#eraser");
 const clear = document.querySelector("#clear");
-const color = document.querySelector("#color");
 let isMouseDown = false;
 const createTiles = (tileCount) => {
     return Array(tileCount ** 2)
@@ -18,17 +18,17 @@ const createTiles = (tileCount) => {
                 return false;
             tile.style.backgroundColor =
                 pen.classList.contains("active-mode") ?
-                    color.value : canvas.style.backgroundColor;
+                    String(color.val()) : String(canvas.css("background-color"));
         };
         return tile;
     });
 };
 const initCanvas = (input, label, canvas) => {
-    canvas.innerHTML = "";
+    canvas.empty();
     label.textContent = `${input.value}x${input.value}`;
     let tiles = createTiles(Number(input.value));
     for (let tile of tiles)
-        canvas.appendChild(tile);
+        canvas.append(tile);
 };
 const changeMode = (selected, deselected) => {
     selected.classList.add("active-mode");
@@ -36,9 +36,9 @@ const changeMode = (selected, deselected) => {
 };
 document.body.onmousedown = () => isMouseDown = true;
 document.body.onmouseup = () => isMouseDown = false;
-color.value = window.localStorage.getItem("color");
 initCanvas(input, label, canvas);
-color.onchange = () => window.localStorage.setItem("color", color.value);
+color.val(window.localStorage.getItem("color"));
+color.on("change", () => window.localStorage.setItem("color", String(color.val())));
 input.onchange = () => initCanvas(input, label, canvas);
 changeMode(pen, eraser);
 pen.onclick = () => changeMode(pen, eraser);
